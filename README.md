@@ -1,3 +1,4 @@
 # feminims
 
-This repo contains code used in the project "Feminisms in Contrast" which aims to study the feminist discourses across cultures.
+topModBR contains code for the Brazilian Corpus.
+topModDE contains code for the German Corpus.

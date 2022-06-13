@@ -86,24 +86,37 @@ write_csv(top_terms_modBR, "outputs_feminaBR/topTermsModBR15.csv")
 
 
 # Step 6: Plot the topics
-top_terms_modBR %>%
+topTermsBR15 %>%
   mutate(topic = factor(topic),
          term = reorder_within(term, beta, topic)) %>%
   ggplot(aes(term, beta, fill = log(beta))) +
   geom_bar(stat = "identity", show.legend = FALSE, color = "grey20", size = 0.2) +
   scale_x_reordered() +
-  facet_wrap(~topic, scales = "free", ncol = 3) +
+  facet_wrap(~topic, scales = "free", ncol = 4, 
+             labeller = labeller(topic = c("Topic 01" = "Tópico 1: Prostituição e economia", 
+                                           "Topic 02" = "Tópico 2: Violência sexual",
+                                           "Topic 03" = "Tópico 3: Racismo e classe social",
+                                           "Topic 04" = "Tópico 4: Cultura e esporte",
+                                           "Topic 05" = "Tópico 5: Política brasileira",
+                                           "Topic 06" = "Tópico 6: Ativismo",
+                                           "Topic 07" = "Tópico 7: Trabalho doméstico e mercado de trabalho",
+                                           "Topic 08" = "Tópico 8: Aborto e direito da mulher",
+                                           "Topic 09" = "Tópico 9: Mulher e feminista",
+                                           "Topic 10" = "Tópico 10: Pessoas")),
+             dir = "v",
+             strip.position = "right") +
   coord_flip() +
   theme_minimal() +
   scale_fill_distiller(palette = "Dark2") +
   theme(legend.position = 'none',
         panel.grid = element_blank(),
-        axis.text.y = element_text(size= 8),
+        strip.text = element_text(face = "bold", size = 12),
+        axis.text.y = element_text(size= 14),
         axis.text.x = element_blank(),
         plot.margin = margin(0.5, 1, 0.5, 0.5, "cm")) +
-  labs(title= "FeminaBR_mod: Strongest Words by Topic", y = NULL, x = NULL)
+  labs(title= "FeminaBR: As 15 palavras mais fortes por tópico", y = NULL, x = NULL)
 
-ggsave("outputs_feminaBR/topterms_feminaBR15.png")
+ggsave("outputs_feminaBR/topTermsBR15_4col_themeMinimal_labels.png", width = 18, height = 15)
 
 # Step 7: Top terms - by Documents
 topTerms_docBR <-tidy(feminaBR_mod, matrix = "gamma") %>%

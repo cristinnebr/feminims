@@ -86,24 +86,37 @@ top_terms_mod <-tidy(feminaDE_mod, matrix = "beta") %>%
 write_csv(top_terms_mod, "outputs_feminaDE/topTermsMod15.csv")
 
 # Step 6: Plot the topics
-top_terms_mod %>%
+topTermsDE15 %>%
   mutate(topic = factor(topic),
          term = reorder_within(term, beta, topic)) %>%
   ggplot(aes(term, beta, fill = log(beta))) +
   geom_bar(stat = "identity", show.legend = FALSE, color = "grey20", size = 0.2) +
   scale_x_reordered() +
-  facet_wrap(~topic, scales = "free_y", ncol = 3) +
+  facet_wrap(~topic, scales = "free", ncol = 4, 
+             labeller = labeller(topic = c("Topic 01" = "Tópico 1: Família e trabalho", 
+                                           "Topic 02" = "Tópico 2: Feminismo, lésbicas e DDR",
+                                           "Topic 03" = "Tópico 3: Islã e preconceito",
+                                           "Topic 04" = "Tópico 4: Pessoas",
+                                           "Topic 05" = "Tópico 5: O 'velho homem branco'",
+                                           "Topic 06" = "Tópico 6: Menina e sexualidade",
+                                           "Topic 07" = "Tópico 7: Pessoas e engajamento",
+                                           "Topic 08" = "Tópico 8: Violência sexual e doméstica",
+                                           "Topic 09" = "Tópico 9: Prostituição e aborto na Alemanha",
+                                           "Topic 10" = "Tópico 10: Cultura e antisemitismo")),
+             dir = "v",
+             strip.position = "right") +
   coord_flip() +
   theme_minimal() +
   scale_fill_distiller(palette = "Dark2") +
   theme(legend.position = 'none',
         panel.grid = element_blank(),
-        axis.text.y = element_text(size= 8),
+        strip.text = element_text(face = "bold", size = 12),
+        axis.text.y = element_text(size= 14),
         axis.text.x = element_blank(),
         plot.margin = margin(0.5, 1, 0.5, 0.5, "cm")) +
-  labs(title= "FeminaDE: Strongest Words by Topic", y = NULL, x = NULL)
+  labs(title= "FeminaDE: As 15 palavras mais fortes por tópico", y = NULL, x = NULL)
 
-ggsave("outputs_feminaDE/topterms_feminaDE15.png")
+ggsave("outputs_feminaDE/topTermsDE15_4col_themeMinimal_labels.png", width = 18, height = 15)
 
 # Step 7: Top terms by documments
 topTerms_docDE <-tidy(feminaDE_mod, matrix = "gamma") %>%
